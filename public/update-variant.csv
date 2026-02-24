@@ -1,0 +1,61 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Option1 Name,Option1 Value,Option2 Name,Option2 Value,Variant Inventory Qty,Variant Price,Variant Requires Shipping,Variant Taxable,Image Src,Image Position
+ocean-blue-shirt,Ocean Blue Shirt,Ocean blue cotton shirt...,partners-demo,,men,true,Size,S,Color,Blue,10,50,true,true,https://burst.shopifycdn.com/photos/young-man-in-bright-fashion_925x.jpg,1
+ocean-blue-shirt,,,,,,,Size,M,Color,Blue,10,50,true,true,,
+ocean-blue-shirt,,,,,,,Size,L,Color,Blue,10,50,true,true,,
+classic-varsity-top,Classic Varsity Top,Womens casual varsity top...,partners-demo,,women,true,Size,S,Color,Black-Grey,10,60,true,true,https://burst.shopifycdn.com/photos/casual-fashion-woman_925x.jpg,1
+classic-varsity-top,,,,,,,Size,M,Color,Black-Grey,10,60,true,true,,
+classic-varsity-top,,,,,,,Size,L,Color,Black-Grey,10,60,true,true,,
+yellow-wool-jumper,Yellow Wool Jumper,Knitted jumper...,partners-demo,,women,true,Size,S,Color,Yellow,10,80,true,true,https://burst.shopifycdn.com/photos/autumn-photographer-taking-picture_925x.jpg,1
+yellow-wool-jumper,,,,,,,Size,M,Color,Yellow,10,80,true,true,,
+yellow-wool-jumper,,,,,,,Size,L,Color,Yellow,10,80,true,true,,
+floral-white-top,Floral White Top,Stylish sleeveless white top...,partners-demo,,women,true,Size,S,Color,White,10,75,true,true,https://burst.shopifycdn.com/photos/city-woman-fashion_925x@2x.jpg,1
+floral-white-top,,,,,,,Size,M,Color,White,10,75,true,true,,
+floral-white-top,,,,,,,Size,L,Color,White,10,75,true,true,,
+striped-silk-blouse,Striped Silk Blouse,Ultra-stylish striped silk blouse...,partners-demo,,women,true,Size,S,Color,Striped,10,50,true,true,https://burst.shopifycdn.com/photos/striped-blouse-fashion_925x.jpg,1
+striped-silk-blouse,,,,,,,Size,M,Color,Striped,10,50,true,true,,
+striped-silk-blouse,,,,,,,Size,L,Color,Striped,10,50,true,true,,
+classic-leather-jacket,Classic Leather Jacket,Womans zipped leather jacket...,partners-demo,,women,true,Size,S,Color,Black,10,80,true,true,https://burst.shopifycdn.com/photos/leather-jacket-and-tea_925x.jpg,1
+classic-leather-jacket,,,,,,,Size,M,Color,Black,10,80,true,true,,
+classic-leather-jacket,,,,,,,Size,L,Color,Black,10,80,true,true,,
+dark-denim-top,Dark Denim Top,Classic dark denim top...,partners-demo,,women,true,Size,S,Color,Dark Denim,10,60,true,true,https://burst.shopifycdn.com/photos/young-female-models-denim_925x.jpg,1
+dark-denim-top,,,,,,,Size,M,Color,Dark Denim,10,60,true,true,,
+dark-denim-top,,,,,,,Size,L,Color,Dark Denim,10,60,true,true,,
+navy-sport-jacket,Navy Sports Jacket,Long-sleeved navy waterproof jacket...,partners-demo,,men,true,Size,S,Color,Navy,10,60,true,true,https://burst.shopifycdn.com/photos/mens-fall-fashion-jacket_925x.jpg,1
+navy-sport-jacket,,,,,,,Size,M,Color,Navy,10,60,true,true,,
+navy-sport-jacket,,,,,,,Size,L,Color,Navy,10,60,true,true,,
+dark-winter-jacket,Soft Winter Jacket,Thick black winter jacket...,partners-demo,,women,true,Size,S,Color,Black,10,50,true,true,https://burst.shopifycdn.com/photos/smiling-woman-on-snowy-afternoon_925x.jpg,1
+dark-winter-jacket,,,,,,,Size,M,Color,Black,10,50,true,true,,
+dark-winter-jacket,,,,,,,Size,L,Color,Black,10,50,true,true,,
+black-leather-bag,Black Leather Bag,Womens black leather bag...,partners-demo,,women,true,Size,S,Color,Black,10,30,true,true,https://burst.shopifycdn.com/photos/black-bag-over-the-shoulder_925x.jpg,1
+black-leather-bag,,,,,,,Size,M,Color,Black,10,30,true,true,,
+black-leather-bag,,,,,,,Size,L,Color,Black,10,30,true,true,,
+zipped-jacket,Zipped Jacket,Dark navy and light blue jacket...,partners-demo,,men,true,Size,S,Color,Navy-Blue,10,65,true,true,https://burst.shopifycdn.com/photos/menswear-blue-zip-up-jacket_925x.jpg,1
+zipped-jacket,,,,,,,Size,M,Color,Navy-Blue,10,65,true,true,,
+zipped-jacket,,,,,,,Size,L,Color,Navy-Blue,10,65,true,true,,
+silk-summer-top,Silk Summer Top,Silk womens top...,partners-demo,,women,true,Size,S,Color,Pattern,10,70,true,true,https://burst.shopifycdn.com/photos/young-hip-woman-at-carnival_925x.jpg,1
+silk-summer-top,,,,,,,Size,M,Color,Pattern,10,70,true,true,,
+silk-summer-top,,,,,,,Size,L,Color,Pattern,10,70,true,true,,
+longsleeve-cotton-top,Long Sleeve Cotton Top,Black cotton womens top...,partners-demo,,women,true,Size,S,Color,Black,10,50,true,true,https://burst.shopifycdn.com/photos/woman-outside-brownstone_925x.jpg,1
+longsleeve-cotton-top,,,,,,,Size,M,Color,Black,10,50,true,true,,
+longsleeve-cotton-top,,,,,,,Size,L,Color,Black,10,50,true,true,,
+chequered-red-shirt,Chequered Red Shirt,Classic mens plaid flannel shirt...,partners-demo,,men,true,Size,S,Color,Red Chequered,10,50,true,true,https://burst.shopifycdn.com/photos/red-plaid-shirt_925x.jpg,1
+chequered-red-shirt,,,,,,,Size,M,Color,Red Chequered,10,50,true,true,,
+chequered-red-shirt,,,,,,,Size,L,Color,Red Chequered,10,50,true,true,,
+white-cotton-shirt,White Cotton Shirt,Plain white cotton shirt...,partners-demo,,women,true,Size,S,Color,White,10,30,true,true,https://burst.shopifycdn.com/photos/smiling-woman-poses_925x.jpg,1
+white-cotton-shirt,,,,,,,Size,M,Color,White,10,30,true,true,,
+white-cotton-shirt,,,,,,,Size,L,Color,White,10,30,true,true,,
+olive-green-jacket,Olive Green Jacket,Loose fitting olive green jacket...,partners-demo,,women,true,Size,S,Color,Olive Green,10,65,true,true,https://burst.shopifycdn.com/photos/urban-fashion_925x.jpg,1
+olive-green-jacket,,,,,,,Size,M,Color,Olive Green,10,65,true,true,,
+olive-green-jacket,,,,,,,Size,L,Color,Olive Green,10,65,true,true,,
+blue-silk-tuxedo,Blue Silk Tuxedo,Blue silk tuxedo...,partners-demo,,men,true,Size,S,Color,Blue,10,70,true,true,https://burst.shopifycdn.com/photos/man-adjusts-blue-tuxedo-bowtie_925x.jpg,1
+blue-silk-tuxedo,,,,,,,Size,M,Color,Blue,10,70,true,true,,
+blue-silk-tuxedo,,,,,,,Size,L,Color,Blue,10,70,true,true,,
+red-sports-tee,Red Sports Tee,Women's red sporty t-shirt...,partners-demo,,women,true,Size,S,Color,Red,10,50,true,true,https://burst.shopifycdn.com/photos/womens-red-t-shirt_925x.jpg,1
+red-sports-tee,,,,,,,Size,M,Color,Red,10,50,true,true,,
+red-sports-tee,,,,,,,Size,L,Color,Red,10,50,true,true,,
+striped-skirt-and-top,Striped Skirt and Top,Black cotton top with matching skirt...,partners-demo,,women,true,Size,S,Color,Striped,10,50,true,true,https://burst.shopifycdn.com/photos/woman-in-the-city_925x.jpg,1
+striped-skirt-and-top,,,,,,,Size,M,Color,Striped,10,50,true,true,,
+striped-skirt-and-top,,,,,,,Size,L,Color,Striped,10,50,true,true,,
+led-high-tops,LED High Tops,Black high top shoes...,partners-demo,,men,true,Size,S,Color,Black,10,80,true,true,https://burst.shopifycdn.com/photos/putting-on-your-shoes_925x.jpg,1
+led-high-tops,,,,,,,Size,M,Color,Black,10,80,true,true,,
+led-high-tops,,,,,,,Size,L,Color,Black,10,80,true,true,,

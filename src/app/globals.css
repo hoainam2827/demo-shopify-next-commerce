@@ -1,0 +1,63 @@
+@import 'tailwindcss';
+
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/container-queries";
+
+/* Dark mode: tự động theo theme hệ thống (mặc định Tailwind v4) */
+/* Nếu muốn dùng class .dark thủ công, bỏ comment dòng dưới: */
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+
+@theme inline {
+  --font-sans: var(--font-geist-sans);
+
+  /* Keyframes */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes blink {
+    0% {
+      opacity: 0.2;
+    }
+    20% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  /* Animations */
+  --animation-fade-in: fade-in 0.3s ease-in-out;
+  --animation-blink: blink 1.4s both infinite;
+}
+
+/* Custom Utilities */
+@utility animation-delay-* {
+  animation-delay: --value;
+}
+
+/* Dark mode: Tự động theo hệ thống */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Safari fix: loại bỏ khoảng trống 1px khi lazy load ảnh trên Safari */
+@supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  img[loading='lazy'] {
+    clip-path: inset(0.6px);
+  }
+}
+
+/* Focus ring: đảm bảo các phần tử tương tác đều có outline khi focus bằng keyboard */
+a,
+input,
+button {
+  @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-50 dark:focus-visible:ring-neutral-600 dark:focus-visible:ring-offset-neutral-900;
+}
