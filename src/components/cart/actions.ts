@@ -16,7 +16,7 @@ export async function addItem(
   prevState: any,
   selectedVariantId: string | undefined,
 ) {
-  const cartId = ( await cookies() ).get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
 
   if (!cartId || !selectedVariantId) {
     return 'Error adding item to cart';
@@ -26,7 +26,7 @@ export async function addItem(
     await addToCart(cartId, [
       { merchandiseId: selectedVariantId, quantity: 1 },
     ]);
-    revalidateTag(TAGS.cart);
+    revalidateTag(TAGS.cart, 'default');
   } catch (error) {
     return 'Error adding item to cart';
   }
@@ -39,7 +39,7 @@ export async function updateItemQuantity(
     quantity: number;
   },
 ) {
-  const cartId = ( await cookies() ).get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
   if (!cartId) {
     return 'Missing cart ID';
   }
@@ -73,7 +73,7 @@ export async function updateItemQuantity(
       await addToCart(cartId, [{ merchandiseId, quantity }]);
     }
 
-    revalidateTag(TAGS.cart);
+    revalidateTag(TAGS.cart, 'default');
   } catch (error) {
     console.error(error);
     return 'Error updating item quantity';
@@ -81,7 +81,7 @@ export async function updateItemQuantity(
 }
 
 export async function removeItem(prevState: any, merchandiseId: string) {
-  const cartId = ( await cookies() ).get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
 
   if (!cartId) {
     return 'Missing cart ID';
@@ -99,7 +99,7 @@ export async function removeItem(prevState: any, merchandiseId: string) {
 
     if (lineItem && lineItem.id) {
       await removeFromCart(cartId, [lineItem.id]);
-      revalidateTag(TAGS.cart);
+      revalidateTag(TAGS.cart, 'default');
     } else {
       return 'Item not found in cart';
     }
@@ -109,7 +109,7 @@ export async function removeItem(prevState: any, merchandiseId: string) {
 }
 
 export async function redirectToCheckout() {
-  const cartId = ( await cookies() ).get('cartId')?.value;
+  const cartId = (await cookies()).get('cartId')?.value;
 
   if (!cartId) {
     return 'Missing cart ID';
@@ -126,5 +126,5 @@ export async function redirectToCheckout() {
 
 export async function createCartAndSetCookie() {
   const cart = await createCart();
-  ( await cookies() ).set('cartId', cart.id!);
+  (await cookies()).set('cartId', cart.id!);
 }
