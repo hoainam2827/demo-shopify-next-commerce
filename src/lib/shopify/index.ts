@@ -48,6 +48,9 @@ import {
 } from '@/lib/shopify/mutations/cart';
 import { getCartQuery } from '@/lib/shopify/queries/cart';
 import { getPageQuery, getPagesQuery } from '@/lib/shopify/queries/page';
+import { NextRequest, NextResponse } from 'next/server';
+// headers import removed as it is no longer used in revalidate function
+import { revalidateTag } from 'next/cache';
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartWith(process.env.SHOPIFY_STORE_DOMAIN, 'https://')
@@ -455,4 +458,46 @@ export async function getPages(): Promise<Page[]> {
   });
 
   return removeEdgesAndNodes(res.body.data?.pages);
+}
+
+export async function revalidate(req: NextRequest): Promise<NextResponse> {
+  const collectionWebhooks = [
+    'collections/create',
+    'collections/delete',
+    'collections/update',
+  ];
+  const productWebhooks = [
+    'products/create',
+    'products/delete',
+    'products/update',
+  ];
+  const topic = req.headers.get('x-shopify-topic') || 'unknown';
+  const secret = req.nextUrl.searchParams.get('secret');
+  const isCollectionUpdate = collectionWebhooks.includes(topic);
+  const isProductUpdate = productWebhooks.includes(topic);
+
+  if (!secret || secret !== process.env.SHOPIFY_REVALIDATION_SECRET) {
+    console.error('Invalid revalidation secret.');
+    return NextResponse.json(
+      { status: 401, message: 'Invalid secret' },
+      { status: 401 },
+    );
+  }
+
+  if (!isCollectionUpdate && !isProductUpdate) {
+    // We don't care about other topics
+    return NextResponse.json({ status: 200 });
+  }
+
+  if (isCollectionUpdate) {
+    revalidateTag(TAGS.collections, 'default');
+    console.log(`Revalidated tag: ${TAGS.collections}`);
+  }
+
+  if (isProductUpdate) {
+    revalidateTag(TAGS.products, 'default');
+    console.log(`Revalidated tag: ${TAGS.products}`);
+  }
+
+  return NextResponse.json({ status: 200, revalidated: true, now: Date.now() });
 }
