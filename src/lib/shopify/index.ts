@@ -25,6 +25,9 @@ import {
   ShopifyRemoveFromCartOperation,
   ShopifyUpdateCartOperation,
   ShopifyProductRecommendationsOperation,
+  ShopifyPagesOperation,
+  Page,
+  ShopifyPageOperation,
 } from './types';
 import { ensureStartWith } from '../utils';
 import { isShopifyError } from '@/lib/type-guards';
@@ -36,9 +39,15 @@ import {
 import {
   getCollectionProductsQuery,
   getCollectionsQuery,
-} from "./queries/collection";
-import { addToCartMutation, createCartMutation, editCartItemsMutation, removeFromCartMutation } from '@/lib/shopify/mutations/cart';
+} from './queries/collection';
+import {
+  addToCartMutation,
+  createCartMutation,
+  editCartItemsMutation,
+  removeFromCartMutation,
+} from '@/lib/shopify/mutations/cart';
 import { getCartQuery } from '@/lib/shopify/queries/cart';
+import { getPageQuery, getPagesQuery } from '@/lib/shopify/queries/page';
 
 const domain = process.env.SHOPIFY_STORE_DOMAIN
   ? ensureStartWith(process.env.SHOPIFY_STORE_DOMAIN, 'https://')
@@ -51,7 +60,7 @@ type ExtractVariables<T> = T extends { variables: object }
   ? T['variables']
   : never;
 
-// Menu 
+// Menu
 export async function shopifyFetch<T>({
   cache = 'force-cache',
   headers,
@@ -128,7 +137,7 @@ export async function getMenu(handle: string): Promise<Menu[]> {
   );
 }
 
-// Search 
+// Search
 function reshapeImages(images: Connection<Image>, productTitle: string) {
   const flattened = removeEdgesAndNodes(images);
 
@@ -183,7 +192,7 @@ function reshapeProducts(products: ShopifyProduct[]) {
 }
 
 function reshapeCollection(
-  collection: ShopifyCollection
+  collection: ShopifyCollection,
 ): Collection | undefined {
   if (!collection) return undefined;
 
@@ -209,31 +218,33 @@ function reshapeCollections(collections: ShopifyCollection[]) {
   return reshapedCollections;
 }
 
-
 export async function getCollections(): Promise<Collection[]> {
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
     tags: [TAGS.collections],
-    cache: 'no-store'
+    cache: 'no-store',
   });
   // console.log("🚀❤️ ~ getCollections ~ res:", res)
 
   const shopifyCollections = removeEdgesAndNodes(res?.body?.data?.collections);
+  if (!shopifyCollections) {
+    return [];
+  }
   const collections = [
     {
-      handle: "",
-      title: "All",
-      description: "All products",
+      handle: '',
+      title: 'All',
+      description: 'All products',
       seo: {
-        title: "All",
-        description: "All products",
+        title: 'All',
+        description: 'All products',
       },
-      path: "/search",
+      path: '/search',
       updatedAt: new Date().toISOString(),
     },
     // Filter out the hidden products
     ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith("hidden")
+      (collection) => !collection.handle.startsWith('hidden'),
     ),
   ];
 
@@ -255,17 +266,17 @@ export async function getCollectionProducts({
     variables: {
       handle: collection,
       reverse,
-      sortKey: sortKey === "CREATED_AT" ? "CREATED" : sortKey,
+      sortKey: sortKey === 'CREATED_AT' ? 'CREATED' : sortKey,
     },
   });
 
-  if (!res.body.data.collection) {
+  if (!res.body.data?.collection) {
     console.log(`No collection found for \`${collection}\``);
     return [];
   }
 
   return reshapeProducts(
-    removeEdgesAndNodes(res.body.data.collection.products)
+    removeEdgesAndNodes(res.body.data.collection.products),
   );
 }
 
@@ -288,7 +299,7 @@ export async function getProducts({
     },
   });
 
-  return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+  return reshapeProducts(removeEdgesAndNodes(res.body.data?.products));
 }
 
 export async function getProduct(handle: string): Promise<Product | undefined> {
@@ -299,11 +310,11 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
       handle,
     },
   });
-  return reshapeProduct(res.body.data.product, false);
+  return reshapeProduct(res.body.data?.product, false);
 }
 
 export async function getProductRecommendations(
-  productId: string
+  productId: string,
 ): Promise<Product[]> {
   const res = await shopifyFetch<ShopifyProductRecommendationsOperation>({
     query: getProductRecommendationsQuery,
@@ -313,19 +324,40 @@ export async function getProductRecommendations(
     },
   });
 
-  return reshapeProducts(res.body.data.productRecommendations);
+  return reshapeProducts(res.body.data?.productRecommendations);
 }
 
 function reshapeCart(cart: ShopifyCart): Cart {
-  if (!cart.cost?.totalTaxAmount) {
-    cart.cost.totalTaxAmount = {
-      amount: "0.0",
-      currencyCode: "USD",
+  if (!cart) {
+    return {
+      id: undefined,
+      checkoutUrl: '',
+      totalQuantity: 0,
+      lines: [],
+      cost: {
+        subtotalAmount: { amount: '0', currencyCode: 'USD' },
+        totalAmount: { amount: '0', currencyCode: 'USD' },
+        totalTaxAmount: { amount: '0', currencyCode: 'USD' },
+      },
+    };
+  }
+
+  const cost = cart.cost || {
+    subtotalAmount: { amount: '0', currencyCode: 'USD' },
+    totalAmount: { amount: '0', currencyCode: 'USD' },
+    totalTaxAmount: { amount: '0', currencyCode: 'USD' },
+  };
+
+  if (!cost.totalTaxAmount) {
+    cost.totalTaxAmount = {
+      amount: '0.0',
+      currencyCode: 'USD',
     };
   }
 
   return {
     ...cart,
+    cost,
     lines: removeEdgesAndNodes(cart.lines),
   };
 }
@@ -333,14 +365,14 @@ function reshapeCart(cart: ShopifyCart): Cart {
 export async function createCart(): Promise<Cart> {
   const res = await shopifyFetch<ShopifyCreateCartOperation>({
     query: createCartMutation,
-    cache: "no-store",
+    cache: 'no-store',
   });
 
-  return reshapeCart(res.body.data.cartCreate.cart);
+  return reshapeCart(res.body.data?.cartCreate?.cart);
 }
 
 export async function getCart(
-  cartId: string | undefined
+  cartId: string | undefined,
 ): Promise<Cart | undefined> {
   if (!cartId) return undefined;
 
@@ -351,7 +383,7 @@ export async function getCart(
   });
 
   // old carts becomes 'null' when you checkout
-  if (!res.body.data.cart) {
+  if (!res.body.data?.cart) {
     return undefined;
   }
 
@@ -360,7 +392,7 @@ export async function getCart(
 
 export async function removeFromCart(
   cartId: string,
-  lineIds: string[]
+  lineIds: string[],
 ): Promise<Cart> {
   const res = await shopifyFetch<ShopifyRemoveFromCartOperation>({
     query: removeFromCartMutation,
@@ -368,15 +400,15 @@ export async function removeFromCart(
       cartId,
       lineIds,
     },
-    cache: "no-store",
+    cache: 'no-store',
   });
 
-  return reshapeCart(res.body.data.cartLinesRemove.cart);
+  return reshapeCart(res.body.data?.cartLinesRemove?.cart);
 }
 
 export async function updateCart(
   cartId: string,
-  lines: { id: string; merchandiseId: string; quantity: number }[]
+  lines: { id: string; merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
   const res = await shopifyFetch<ShopifyUpdateCartOperation>({
     query: editCartItemsMutation,
@@ -384,16 +416,15 @@ export async function updateCart(
       cartId,
       lines,
     },
-    cache: "no-store",
+    cache: 'no-store',
   });
 
-  return reshapeCart(res.body.data.cartLinesUpdate.cart);
+  return reshapeCart(res.body.data?.cartLinesUpdate?.cart);
 }
-
 
 export async function addToCart(
   cartId: string,
-  lines: { merchandiseId: string; quantity: number }[]
+  lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
@@ -401,8 +432,27 @@ export async function addToCart(
       cartId,
       lines,
     },
-    cache: "no-cache",
+    cache: 'no-cache',
   });
 
-  return reshapeCart(res.body.data.cartLinesAdd.cart);
+  return reshapeCart(res.body.data?.cartLinesAdd?.cart);
+}
+
+export async function getPage(handle: string): Promise<Page> {
+  const res = await shopifyFetch<ShopifyPageOperation>({
+    query: getPageQuery,
+    cache: 'no-store',
+    variables: { handle },
+  });
+
+  return res.body.data?.pageByHandle;
+}
+
+export async function getPages(): Promise<Page[]> {
+  const res = await shopifyFetch<ShopifyPagesOperation>({
+    query: getPagesQuery,
+    cache: 'no-store',
+  });
+
+  return removeEdgesAndNodes(res.body.data?.pages);
 }

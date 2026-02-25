@@ -28,7 +28,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const cartId = (await cookies()).get('cartId')?.value;
-  const cart = getCart(cartId)
+  const cart = getCart(cartId);
   return (
     <html lang='en' suppressHydrationWarning>
       <body
